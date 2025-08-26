@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:alpine-arm64  
+    container_name: db-service
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: appdb
+    volumes:
+      - db-data:/var/lib/postgresql/data  
+    ports:
+      - "5432:5432"  
+    networks:
+      - app-net
+    healthcheck: 
+      test: ["CMD-SHELL", "pg_isready -U user"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+web-app:
+    build: .
+    container_name: web app service  
+    depend_on:  
+      - db
+    environment:
+      DB_HOST: db-service
+     
+    ports:
+      - "3000:3000"  t
+    networks:
+      - app-net
+    mem_limit: 64m  
+
+  proxy:
+    image: nginx:latest
+    container_name: nginx-proxy
+    ports:
+      - "80:80"  
+    volumes:
+      - ./nginx.conf/:/etc/nginx/nginx.conf:ro  
+    depends_on:
+      - web-app
+    networks:
+      - app-net
+
+networks:
+  app-net:
+    driver: bridge
+    internal: true  
+    ipam:
+      config:
+        - subnet: 192.168.0.0/16  
+
+volumes:
+  db-data:  
