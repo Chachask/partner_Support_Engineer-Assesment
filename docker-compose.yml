@@ -4,17 +4,17 @@ services:
     image: postgres:15-alpine
     container_name: db-service
     environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: pass
-      POSTGRES_DB: appdb
+      POSTGRES_USER: user             #db name
+      POSTGRES_PASSWORD: pass         #db password
+      POSTGRES_DB: appdb              #db name
     volumes:
       - db-data:/var/lib/postgresql/data  
     ports:
-      - "5432:5432"  
+      - "5432:5432"  #expose db for local testing
     networks:
       - app-net
     healthcheck: 
-      test: ["CMD-SHELL", "pg_isready -U user"]
+      test: ["CMD-SHELL", "pg_isready -U user"]      #checks if db is ready
       interval: 10s
       timeout: 5s
       retries: 5
@@ -25,7 +25,7 @@ services:
     depends_on:  
       - db
     environment:
-      DB_HOST: db-service
+      DB_HOST: db-service     
       DB_USER: user
       DB_PASSWORD: pass
       DB_NAME: appdb
