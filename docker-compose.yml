@@ -1,8 +1,7 @@
-version: '3.8'
 
 services:
   db:
-    image: postgres:alpine-arm64  
+    image: postgres:15-alpine
     container_name: db-service
     environment:
       POSTGRES_USER: user
@@ -20,7 +19,7 @@ services:
       timeout: 5s
       retries: 5
 
-web-app:
+  web-app:
     build: .
     container_name: web app service  
     depend_on:  
@@ -29,7 +28,7 @@ web-app:
       DB_HOST: db-service
      
     ports:
-      - "3000:3000"  t
+      - "3000:3000"  
     networks:
       - app-net
     mem_limit: 64m  
