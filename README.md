@@ -4,7 +4,7 @@ Postgres (db-service)
 Node.js web app (web-app-service)
 Nginx reverse proxy (proxy)
 
-2. Steps Taken
+Steps Taken
 Docker Compose Configuration
 Rectified indentation issues.
 Updated database image from postgres:alpine-arm64 to postgres:15-alpine for compatibility.
