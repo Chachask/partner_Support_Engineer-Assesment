@@ -21,11 +21,15 @@ services:
 
   web-app:
     build: .
-    container_name: web app service  
+    container_name: web-app-service  
     depends_on:  
       - db
     environment:
       DB_HOST: db-service
+      DB_USER: user
+      DB_PASSWORD: pass
+      DB_NAME: appdb
+      DB_PORT: 5432
      
     ports:
       - "3000:3000"  
@@ -48,10 +52,7 @@ services:
 networks:
   app-net:
     driver: bridge
-    internal: true  
-    ipam:
-      config:
-        - subnet: 192.168.0.0/16  
-
+  
+    
 volumes:
   db-data:  
