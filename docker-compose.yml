@@ -22,7 +22,7 @@ services:
   web-app:
     build: .
     container_name: web app service  
-    depend_on:  
+    depends_on:  
       - db
     environment:
       DB_HOST: db-service
